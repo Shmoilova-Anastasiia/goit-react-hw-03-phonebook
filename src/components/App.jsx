@@ -26,6 +26,22 @@ export class App extends Component{
     ],
     filter: '',
   }
+
+  componentDidMount() {
+    const contactsLS = localStorage.getItem('contacts');
+    const parsContants = JSON.parse(contactsLS);
+
+    if (!parsContants) return
+    this.setState({ contacts: parsContants });
+  }
+
+  componentDidUpdate(_, prevState) {
+    // console.log (prevState)
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    }
+  }
+  
   addContact = newContact => {
     const Repeat = this.state.contacts.find(
       contact =>
